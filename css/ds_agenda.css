@@ -1,0 +1,41 @@
+@charset "UTF-8";
+.agenda_header {
+	background-color: #B8C0D1;
+}
+h1 {
+	font-family: "Gill Sans", "Gill Sans MT", "Myriad Pro", "DejaVu Sans Condensed", Helvetica, Arial, sans-serif;
+	font-weight: 700;
+	font-size: 4em;
+}
+.sidebar {
+	background-color: #B8C0D1;
+	border-right: thin solid #000000;
+	padding-right: 0px;
+}
+h3 {
+	font-size: 1em;
+	font-style: italic;
+	font-family: Constantia, "Lucida Bright", "DejaVu Serif", Georgia, serif;
+}
+.superscript {
+    position: relative;
+    bottom: 0.4em;
+    font-size: 0.8em;
+}
+.main {
+	background-color: #B8C0D1;
+}
+.container .row .col-sm-6.date {
+	height: 100%;
+	text-align: right;
+	margin-top: 24px;
+}
+footer {
+	margin-top: 26px;
+	font-size: 0.8em;
+}
+.officer-role {
+}
+.officer-name {
+	margin-bottom: 12px;
+}

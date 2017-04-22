@@ -1,0 +1,52 @@
+@charset "UTF-8";
+body {
+	background-color: #222440;
+	background-image: url(../images/bkgd.jpg);
+	background-size: cover;
+	background-attachment: fixed;
+	font-family: actor;
+	font-style: normal;
+	font-weight: 400;
+	margin: 0;
+	height: 100%;
+}
+h1 {
+	font-family: alfa-slab-one;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 3em;
+	height: 1em;
+	text-align: center;
+}
+h2 {
+	font-family: alfa-slab-one;
+	font-style: normal;
+	font-weight: 400;
+	font-size: 1.5em;
+	text-align: center;
+}
+footer {
+	font-size: 0.5em;
+	text-align: center;
+	clear: both;
+}
+.asideleft {
+	width: 30%;
+	float: left;
+}
+.sectionright {
+	width: 70%;
+	float: right;
+	margin-right: 5%;
+	margin-top: 30px;
+	padding: 2.5%;
+	margin-left: 1%;
+	background-image: -webkit-linear-gradient(270deg,rgba(255,255,255,1.00) 0%,rgba(255,255,255,0.15) 100%);
+	background-image: -moz-linear-gradient(270deg,rgba(255,255,255,1.00) 0%,rgba(255,255,255,0.15) 100%);
+	background-image: -o-linear-gradient(270deg,rgba(255,255,255,1.00) 0%,rgba(255,255,255,0.15) 100%);
+	border-radius: 25px;
+	background-image: linear-gradient(180deg,rgba(255,255,255,1.00) 0%,rgba(255,255,255,0.15) 100%);
+}
+header {
+	text-align: center;
+}
