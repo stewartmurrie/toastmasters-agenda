@@ -16,17 +16,12 @@ h1 {
 	padding-right: 0px;
 }
 
-#tm-logo {
-
-}
 .superscript {
     position: relative;
     bottom: 0.4em;
     font-size: 0.8em;
 }
-.main {
-/*	background-color: #B8C0D1;*/
-}
+
 .container .row .col-sm-6.date {
 	height: 100%;
 	text-align: right;
@@ -36,8 +31,7 @@ footer {
 	margin-top: 26px;
 	font-size: 0.8em;
 }
-.officer-role {
-}
+
 .officer-name {
 	margin-bottom: 12px;
 }
