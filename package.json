@@ -20,6 +20,9 @@
   },
   "homepage": "https://github.com/stewartmurrie/toastmasters-agenda#readme",
   "dependencies": {
-    "express": "^4.15.2"
-  }
+    "dotenv": "^4.0.0",
+    "express": "^4.15.2",
+    "node-fetch": "^1.6.3"
+  },
+  "devDependencies": {}
 }
