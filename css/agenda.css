@@ -12,7 +12,7 @@ h1 {
 }
 .sidebar {
 	background-color: #B8C0D1;
-	border-right: thin solid #000000;
+	/*border-right: thin solid #000000;*/
 	padding-right: 0px;
 }
 
