@@ -79,3 +79,7 @@ mongod
 *.ntvs*
 *.njsproj
 *.sln
+
+# VS Code
+# =======
+.vscode/
