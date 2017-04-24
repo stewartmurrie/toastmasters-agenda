@@ -54,6 +54,25 @@ footer {
 	font-family: Constantia, "Lucida Bright", "DejaVu Serif", Georgia, serif;
 }
 
+.agenda-item  {
+	font-weight: 700;
+	padding-top: 1em;;
+}
+
+.agenda-time {
+	font-weight: 700;
+	padding-top: 1em;;
+}
+
+
+
+/* TODO Remove the top padding for the first speech. */
+.agenda-speech-title {
+	font-style: italic;
+	padding-top: .5em;
+}
+
+
 @media (max-width: 767px) {
     .row.vertical-align {
         display: block; /* Turn off the flexible box layout */
