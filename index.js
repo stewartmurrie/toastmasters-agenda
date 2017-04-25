@@ -6,8 +6,6 @@ const app = express()
 
 app.use(express.static('public'))
 
-
-
 app.get('/wotd', (req, res) => {
     var request = {
         headers: {
