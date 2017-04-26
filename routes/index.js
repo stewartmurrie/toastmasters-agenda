@@ -17,7 +17,7 @@ router.get('/agenda', function (req, res, next) {
     }
   }
 
-  fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/tumultuous', request)
+  fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/ace', request)
     .then(response => response.json())
     .then(json => {
 
@@ -29,7 +29,7 @@ router.get('/agenda', function (req, res, next) {
       
       res.render('agenda', {
         title: 'Dolby Speakers Meeting',
-        'wotd-definition': definitions
+        'wotd-definition': results
       });
     })
 
