@@ -1,30 +1,17 @@
 {
-  "name": "@stewartmurrie/toastmasters-agenda",
-  "version": "1.0.0",
-  "description": "A simple Toastmasters agenda",
-  "main": "index.js",
+  "name": "dw-site",
+  "version": "0.0.0",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./bin/www"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/stewartmurrie/toastmasters-agenda.git"
-  },
-  "keywords": [
-    "toastmasters"
-  ],
-  "author": "Stewart Murrie",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/stewartmurrie/toastmasters-agenda/issues"
-  },
-  "homepage": "https://github.com/stewartmurrie/toastmasters-agenda#readme",
   "dependencies": {
-    "dotenv": "^4.0.0",
-    "express": "^4.15.2",
-    "express-handlebars": "^3.0.0",
-    "handlebars": "^4.0.6",
-    "node-fetch": "^1.6.3"
-  },
-  "devDependencies": {}
+    "body-parser": "~1.17.1",
+    "cookie-parser": "~1.4.3",
+    "debug": "~2.6.3",
+    "express": "~4.15.2",
+    "hbs": "~4.0.1",
+    "morgan": "~1.8.1",
+    "serve-favicon": "~2.4.2"
+  }
 }
