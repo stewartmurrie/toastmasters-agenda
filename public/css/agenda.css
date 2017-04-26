@@ -72,6 +72,13 @@ footer {
 	padding-top: .5em;
 }
 
+footer {
+	padding-top: 10px;
+	border: 0px;
+	border-top: 0.5px;
+	border-style: solid;
+	border-color: black;
+}
 
 @media (max-width: 767px) {
     .row.vertical-align {
