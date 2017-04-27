@@ -18,23 +18,16 @@
     <div class="row">
         <!--   Following the principle of most important content first, the main agenda content is described first, followed by the officers' sidebar. But, in presentation terms, the ordering is reversed using the push/pull construct.  -->
         <article class="col-sm-9 main col-sm-push-3">
-            
-
-            <h4>Word of the day: {{wotd-definition.word}}</h4>
             <section id="wotd">
-                <!-- This could eventually be replaced by a definition pulled from the internet -->
+                <h4>Word of the day: <a href={{concat 'http://www.dictionary.com/browse/' wotd-definition.word}} target='_blank'>{{wotd-definition.word}}</a></h4>
+
                 <h5 id="wotd-pronunciation">[too-MUHL-choo-uh s, tyoo-]</h5>
                 <div id="wotd-definition">
                     {{#each wotd-definition.lexicalEntries}}
-                        <p><i>{{lexicalCategory}}</i></p>
-                        {{#each entries}}
-                            {{#each senses}}
-                                {{#each definitions}}
-                                    <p>{{this}}</p>
-                                {{/each}}
-                            {{/each}}
-                        {{/each}}
-                    {{/each}}
+                    <p><i>{{lexicalCategory}}</i></p>
+                    {{#each entries}} {{#each senses}} {{#each definitions}}
+                    <p>{{this}}</p>
+                    {{/each}} {{/each}} {{/each}} {{/each}}
                 </div>
             </section>
             <section id="programme" class="row">

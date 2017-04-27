@@ -2,9 +2,12 @@ require('dotenv').config();
 var express = require('express');
 var router = express.Router();
 const fetch = require('node-fetch');
-const Handlebars = require('express-hbs')
+const hbs = require('hbs');
 
-Handlebars.registerHelper('concat', (...args) => args.slice(0, -1).join(''));
+// hbs.registerHelper('concat', function (...args) {
+//   return "polly"
+// });
+hbs.registerHelper('concat', (...args) => args.slice(0, -1).join(''));
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
