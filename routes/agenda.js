@@ -45,8 +45,26 @@ router.get('/', function (req, res, next) {
     }
   });
 
-  Promise.all([fbPromise, oedPromise]).then(resultsArray => {
-    console.log(resultsArray)
+  Promise.all([fbPromise, oedPromise]).then(results => {
+    const fbRecords = results.shift();
+    const oedResponse = results.shift();
+
+    oedResponse.json().then(oedDef => {
+      const meetingDate = fbRecords[0].date;
+
+      const results = oedDef.results[0];
+      const lexicalEntries = results.lexicalEntries[0];
+      const entries = lexicalEntries.entries[0];
+      const senses = entries.senses[0];
+      const definitions = senses.definitions;
+      
+      res.render('agenda', {
+        title: 'Dolby Speakers Meeting',
+        'wotd-definition': results,
+        'meeting-date': meetingDate
+      });
+    })
+
   });
   
 
