@@ -11,22 +11,33 @@ Airtable.configure({
 });
 const base = Airtable.base(process.env.AIRTABLE_APP_ID);
 
+const Fieldbook = require('fieldbook-client');
+const client = new Fieldbook({
+  key: process.env.FIELDBOOK_API_USERNAME,
+  secret: process.env.FIELDBOOK_API_PASSWORD,
+  bookId: process.env.FIELDBOOK_BOOK_ID
+});
+
 hbs.registerHelper('concat', (...args) => args.slice(0, -1).join(''));
 
 router.get('/', function (req, res, next) {
   let meetingDate='';
 
-  base('Meetings').select({
-      // Selecting the first 3 records in Grid view:
-      view: "Grid view"
-  }).firstPage((error, records) => {
-      if (error) { console.error(err); return }
+  // base('Meetings').select({
+  //     // Selecting the first 3 records in Grid view:
+  //     view: "Grid view"
+  // }).firstPage((error, records) => {
+  //     if (error) { console.error(err); return }
       
-      // records.forEach(record => {
-      //     console.log('Retrieved', record.get('Date and Time'));
-      // });
+  //     // records.forEach(record => {
+  //     //     console.log('Retrieved', record.get('Date and Time'));
+  //     // });
 
-      meetingDate = records['Date and Time'];
+  //     meetingDate = records['Date and Time'];
+  // });
+
+  client.list('meetings').then(response => {
+    console.log(response);
   });
 
 
