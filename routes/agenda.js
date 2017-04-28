@@ -36,37 +36,42 @@ router.get('/', function (req, res, next) {
   //     meetingDate = records['Date and Time'];
   // });
 
-  client.list('meetings').then(response => {
-    console.log(response);
-  });
 
-
-  // Get the definition for the word of the day
-  const request = {
+  let fbPromise = client.list('meetings');
+  let oedPromise = fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/ace', {
     headers: {
       app_id: process.env.OED_APP_ID,
       app_key: process.env.OED_APP_KEY
     }
-  }
+  });
 
-  fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/ace', request)
-    .then(response => response.json())
-    .then(json => {
+  Promise.all([fbPromise, oedPromise]).then(resultsArray => {
+    console.log(resultsArray)
+  });
+  
 
-      const results = json.results[0];
-      const lexicalEntries = results.lexicalEntries[0];
-      const entries = lexicalEntries.entries[0];
-      const senses = entries.senses[0];
-      const definitions = senses.definitions;
+  // Promise.all([fbPromise, oedPromise]).then(resultsArray => {
+  //   resultsArray[1].then(oedJSON => {
+  //     oedJSON.json()
+  //   }).then (oedDef => {
+
+  //     const meetingDate = resultsArray[0][0].date;
+
+  //     const results = json.results[0];
+  //     const lexicalEntries = results.lexicalEntries[0];
+  //     const entries = lexicalEntries.entries[0];
+  //     const senses = entries.senses[0];
+  //     const definitions = senses.definitions;
       
-      res.render('agenda', {
-        title: 'Dolby Speakers Meeting',
-        'wotd-definition': results,
-        'meeting-date': meetingDate
-      });
-    });
-
+  //     res.render('agenda', {
+  //       title: 'Dolby Speakers Meeting',
+  //       'wotd-definition': results,
+  //       'meeting-date': meetingDate
+  //     });
+  //   });
+  // });
 });
+
 
 
 module.exports = router;
