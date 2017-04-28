@@ -12,7 +12,7 @@ Airtable.configure({
 const base = Airtable.base(process.env.AIRTABLE_APP_ID);
 
 const Fieldbook = require('fieldbook-client');
-const client = new Fieldbook({
+const fbClient = new Fieldbook({
   key: process.env.FIELDBOOK_API_USERNAME,
   secret: process.env.FIELDBOOK_API_PASSWORD,
   bookId: process.env.FIELDBOOK_BOOK_ID
@@ -37,34 +37,28 @@ router.get('/', function (req, res, next) {
   // });
 
 
-  let fbPromise = client.list('meetings');
-  let oedPromise = fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/ace', {
-    headers: {
-      app_id: process.env.OED_APP_ID,
-      app_key: process.env.OED_APP_KEY
-    }
-  });
+  fbClient.list('meetings').then(meetings => {
+    const meeting = meetings[0];
+    const wotd = meeting.word_of_the_day;
 
-  Promise.all([fbPromise, oedPromise]).then(results => {
-    const fbRecords = results.shift();
-    const oedResponse = results.shift();
-
-    oedResponse.json().then(oedDef => {
-      const meetingDate = fbRecords[0].date;
-
-      const results = oedDef.results[0];
-      const lexicalEntries = results.lexicalEntries[0];
-      const entries = lexicalEntries.entries[0];
-      const senses = entries.senses[0];
-      const definitions = senses.definitions;
-      
-      res.render('agenda', {
-        title: 'Dolby Speakers Meeting',
-        'wotd-definition': results,
-        'meeting-date': meetingDate
-      });
-    })
-
+    fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/' + wotd, {
+      headers: {
+        app_id: process.env.OED_APP_ID,
+        app_key: process.env.OED_APP_KEY
+        }
+      }).then(body => body.json()).then(wotdDefn => {
+        const results = wotdDefn.results[0];
+        const lexicalEntries = results.lexicalEntries[0];
+        const entries = lexicalEntries.entries[0];
+        const senses = entries.senses[0];
+        const definitions = senses.definitions;
+        
+        res.render('agenda', {
+          title: 'Dolby Speakers Meeting',
+          'wotd-definition': results,
+          'meeting': meeting,
+        });
+     });
   });
   
 
