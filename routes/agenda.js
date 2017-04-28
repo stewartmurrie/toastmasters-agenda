@@ -14,25 +14,19 @@ const base = Airtable.base(process.env.AIRTABLE_APP_ID);
 hbs.registerHelper('concat', (...args) => args.slice(0, -1).join(''));
 
 router.get('/', function (req, res, next) {
+  let meetingDate='';
 
   base('Meetings').select({
       // Selecting the first 3 records in Grid view:
-      maxRecords: 3,
       view: "Grid view"
-  }).eachPage(function page(records, fetchNextPage) {
-      // This function (`page`) will get called for each page of records.
+  }).firstPage((error, records) => {
+      if (error) { console.error(err); return }
+      
+      // records.forEach(record => {
+      //     console.log('Retrieved', record.get('Date and Time'));
+      // });
 
-      records.forEach(function(record) {
-          console.log('Retrieved', record.get('Date and Time'));
-      });
-
-      // To fetch the next page of records, call `fetchNextPage`.
-      // If there are more records, `page` will get called again.
-      // If there are no more records, `done` will get called.
-      fetchNextPage();
-
-  }, function done(err) {
-      if (err) { console.error(err); return; }
+      meetingDate = records['Date and Time'];
   });
 
 
@@ -56,7 +50,8 @@ router.get('/', function (req, res, next) {
       
       res.render('agenda', {
         title: 'Dolby Speakers Meeting',
-        'wotd-definition': results
+        'wotd-definition': results,
+        'meeting-date': meetingDate
       });
     });
 
