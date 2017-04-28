@@ -1,6 +1,6 @@
 require('dotenv').config();
-const express = require('express');
-const router = express.Router();
+var express = require('express');
+var router = express.Router();
 const fetch = require('node-fetch');
 const hbs = require('hbs');
 
@@ -8,7 +8,7 @@ hbs.registerHelper('concat', (...args) => args.slice(0, -1).join(''));
 
 router.get('/', function (req, res, next) {
 
-  const request = {
+  var request = {
     headers: {
       app_id: process.env.OED_APP_ID,
       app_key: process.env.OED_APP_KEY
@@ -32,7 +32,5 @@ router.get('/', function (req, res, next) {
     });
 
 });
-
-
 
 module.exports = router;
