@@ -20,6 +20,9 @@ const fbClient = new Fieldbook({
 
 hbs.registerHelper('concat', (...args) => args.slice(0, -1).join(''));
 
+
+
+
 router.get('/', function (req, res, next) {
   let meetingDate='';
 
@@ -35,6 +38,12 @@ router.get('/', function (req, res, next) {
 
   //     meetingDate = records['Date and Time'];
   // });
+
+  base('Meetings').select({view: 'Grid view'}).all().then(records => {
+    console.log(records);
+  }).catch(err => {
+    console.log(err);
+  });
 
 
   fbClient.list('meetings').then(meetings => {
