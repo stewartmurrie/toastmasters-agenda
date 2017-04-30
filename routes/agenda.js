@@ -27,7 +27,7 @@ router.get('/', function (req, res, next) {
     const meeting = records[0];
     const wotd = meeting.get('Word of the Day');
     
-   fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/' + wotd, {
+   let a = fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/' + wotd, {
       headers: {
         app_id: process.env.OED_APP_ID,
         app_key: process.env.OED_APP_KEY
@@ -38,13 +38,17 @@ router.get('/', function (req, res, next) {
         const entries = lexicalEntries.entries[0];
         const senses = entries.senses[0];
         const definitions = senses.definitions;
-        
+      });
+    
+    let b = base('Members').find(meeting.get('Toastmaster'));
+    
+    Promise.all([a, b]).then(results => {
         res.render('agenda', {
           title: 'Dolby Speakers Meeting',
           'wotd-definition': results,
-          'meeting': meeting,
+          'toastmaster': results[1].get('Name'),
         });
-      });
+    });
   });
 });
 
