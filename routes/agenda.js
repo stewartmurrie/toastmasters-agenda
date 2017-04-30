@@ -39,15 +39,18 @@ router.get('/', function (req, res, next) {
     const speech2 = base('Speeches').find(meeting.get('Speeches')[1]);
 
     const s1 = Promise.all([speech1, speech2]).then(speeches => {
-      const speech1 = speeches[0];
-      const title1 = speech1.get('Title');
-      const speaker1 = base('Members').find(speech1.get('Speaker'));
-      const eval1 = base('Members').find(speech1.get('Evaluator'));
-      return Promise.all([title1, speaker1, eval1]);
+      const speech = speeches[0];
+      const title = speech.get('Title');
+      const speaker = base('Members').find(speech.get('Speaker'));
+      const evaluator = base('Members').find(speech.get('Evaluator'));
+      const project = base('Projects').find(speech.get('Project'));
+      return Promise.all([title, speaker, evaluator, project]);
     });
+
 
     Promise.all([wotd, tm, topicm, ge, timer, ah, s1]).then(results => {
       const defn = results[0].results[0];
+      // TODO: all these magic numbers indexing into arrays of arrays makes me nervous. I'mm sure there's a better way.
 
       res.render('agenda', {
         title: 'Dolby Speakers Meeting',
@@ -62,8 +65,8 @@ router.get('/', function (req, res, next) {
         'speech-title-1': results[6][0],
         'speaker-1': results[6][1].get('Name'),
         'evaluator-1': results[6][2].get('Name'),
-        // 'project-1': results[6].get('Title'),
-        // 'time-1': results[6].get('Title'),
+        'project-1': results[6][3].get('Project ID'),
+        'time-1': results[6][3].get('Time'),
       });
     }).catch(err => console.log(err));
   });
