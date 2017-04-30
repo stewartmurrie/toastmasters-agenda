@@ -38,14 +38,22 @@ router.get('/', function (req, res, next) {
     const speech1 = base('Speeches').find(meeting.get('Speeches')[0]);
     const speech2 = base('Speeches').find(meeting.get('Speeches')[1]);
 
+    // FIXME: DRY
     const s1 = Promise.all([speech1, speech2]).then(speeches => {
-      const speech = speeches[0];
-      const title = speech.get('Title');
-      const speaker = base('Members').find(speech.get('Speaker'));
-      const evaluator = base('Members').find(speech.get('Evaluator'));
-      const project = base('Projects').find(speech.get('Project'));
-      return Promise.all([title, speaker, evaluator, project]);
+      const speech1 = speeches[0];
+      const title1 = speech1.get('Title');
+      const speaker1 = base('Members').find(speech1.get('Speaker'));
+      const evaluator1 = base('Members').find(speech1.get('Evaluator'));
+      const project1 = base('Projects').find(speech1.get('Project'));
+      const speech2 = speeches[1];
+      const title2 = speech2.get('Title');
+      const speaker2 = base('Members').find(speech2.get('Speaker'));
+      const evaluator2 = base('Members').find(speech2.get('Evaluator'));
+      const project2 = base('Projects').find(speech2.get('Project'));
+      
+      return Promise.all([title1, speaker1, evaluator1, project1,title2, speaker2, evaluator2, project2]);
     });
+
 
 
     Promise.all([wotd, tm, topicm, ge, timer, ah, s1]).then(results => {
@@ -67,6 +75,11 @@ router.get('/', function (req, res, next) {
         'evaluator-1': results[6][2].get('Name'),
         'project-1': results[6][3].get('Project ID'),
         'time-1': results[6][3].get('Time'),
+        'speech-title-2': results[6][4],
+        'speaker-2': results[6][5].get('Name'),
+        'evaluator-2': results[6][6].get('Name'),
+        'project-2': results[6][7].get('Project ID'),
+        'time-2': results[6][7].get('Time'),
       });
     }).catch(err => console.log(err));
   });
