@@ -35,7 +35,10 @@ router.get('/', function (req, res, next) {
     const timer = base('Members').find(meeting.get('Timer'));
     const ah = base('Members').find(meeting.get('Ah-counter'));
 
-    Promise.all([wotd, tm, topicm, ge, timer, ah]).then(results => {
+    const speech1 = base('Speeches').find(meeting.get('Speeches')[0]);
+    const speech2 = base('Speeches').find(meeting.get('Speeches')[1]);
+
+    Promise.all([wotd, tm, topicm, ge, timer, ah, speech1, speech2]).then(results => {
       const defn = results[0].results[0];
 
       res.render('agenda', {
@@ -47,7 +50,11 @@ router.get('/', function (req, res, next) {
         'topicscmaster': results[2].get('Name'),
         'ge': results[3].get('Name'),
         'timer': results[4].get('Name'),
-        'ah': results[5].get('Name')
+        'ah': results[5].get('Name'),
+        'speech-title-1': results[6].get('Title'),
+        // 'speaker-1': results[6].get('Title'),
+        // 'project-1': results[6].get('Title'),
+        // 'time-1': results[6].get('Title'),
       });
     }).catch(err => console.log(err));
   });
