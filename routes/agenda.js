@@ -38,7 +38,15 @@ router.get('/', function (req, res, next) {
     const speech1 = base('Speeches').find(meeting.get('Speeches')[0]);
     const speech2 = base('Speeches').find(meeting.get('Speeches')[1]);
 
-    Promise.all([wotd, tm, topicm, ge, timer, ah, speech1, speech2]).then(results => {
+    const s1 = Promise.all([speech1, speech2]).then(speeches => {
+      const speech1 = speeches[0];
+      const title1 = speech1.get('Title');
+      const speaker1 = base('Members').find(speech1.get('Speaker'));
+      const eval1 = base('Members').find(speech1.get('Evaluator'));
+      return Promise.all([title1, speaker1, eval1]);
+    });
+
+    Promise.all([wotd, tm, topicm, ge, timer, ah, s1]).then(results => {
       const defn = results[0].results[0];
 
       res.render('agenda', {
@@ -51,8 +59,9 @@ router.get('/', function (req, res, next) {
         'ge': results[3].get('Name'),
         'timer': results[4].get('Name'),
         'ah': results[5].get('Name'),
-        'speech-title-1': results[6].get('Title'),
-        // 'speaker-1': results[6].get('Title'),
+        'speech-title-1': results[6][0],
+        'speaker-1': results[6][1].get('Name'),
+        'evaluator-1': results[6][2].get('Name'),
         // 'project-1': results[6].get('Title'),
         // 'time-1': results[6].get('Title'),
       });
