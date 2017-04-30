@@ -7,10 +7,10 @@
         <div class="col-sm-3 col-xs-12">
             <div class="row">
                 <div class="col-xs-12">
-                    <h2 id="date">{{meeting.date}}</h2>
+                    <h2 id="date">{{date}}</h2>
                 </div>
                 <div class="col-xs-12">
-                    <h3 id="location">3<span class="superscript">rd</span> Tonal Center</h3>
+                    <h3 id="location">{{location}}</h3>
                 </div>
             </div>
         </div>
@@ -41,11 +41,11 @@
                 <div class="col-xs-8 agenda-role">Toastmaster</div>
                 <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{toastmaster}}</a></div>
                 <div class="col-xs-8 agenda-role">Timer</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{meeting.timer.0.name}}</a></div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{timer}}</a></div>
                 <div class="col-xs-8 agenda-role">Ah-counter</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">Annie Yoshiyama</a></div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{ah}}</a></div>
                 <div class="col-xs-8 agenda-role">General Evaluator</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{meeting.general_evaluator.0.name}}</a></div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{ge}}</a></div>
                 <div class="col-xs-8 agenda-item">Prepared Speeches</div>
                 <div class="col-xs-4 agenda-time">12:11 – 12:30 pm</div>
                 <div class="col-xs-8 agenda-speech-title">'4th Wave VR, it's about to get real'</div>
@@ -57,7 +57,7 @@
                 <div class="col-xs-8 agenda-item">Table Topics</div>
                 <div class="col-xs-4 agenda-time">12:30 – 12:42 pm</div>
                 <div class="col-xs-8 agenda-speech-title">'Days of Future Passed'</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{meeting.topicsmaster.0.name}}</a></div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{topicscmaster}}</a></div>
                 <div class="col-xs-8 agenda-item">Responses, 1 – 2 mins</div>
                 <div class="col-xs-4 agenda-name">Members</div>
                 <div class="col-xs-8 agenda-item">Evaluations</div>
@@ -67,11 +67,11 @@
                 <div class="col-xs-8 agenda-role">Speech 2 Evaluation, 2 – 3 mins</div>
                 <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">Mike Assenti</a></div>
                 <div class="col-xs-8 agenda-role">Timer's Report, 1 – 2 mins</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">Gary Halpin</a></div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{timer}}</a></div>
                 <div class="col-xs-8 agenda-role">Ah-counter Report, 1 – 2 mins</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">Annie Yoshiyama</a></div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{ah}}</a></div>
                 <div class="col-xs-8 agenda-role">General Evaluation, 1 – 2 mins</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">Candace Flemmer</a></div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{ge}}</a></div>
                 <div class="col-xs-8 agenda-item">Club Business</div>
                 <div class="col-xs-4 agenda-time">12:55 – 1:00 pm</div>
                 <div class="col-xs-8 agenda-role">President</div>
