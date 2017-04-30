@@ -40,17 +40,10 @@ router.get('/', function (req, res, next) {
   // });
 
   base('Meetings').select({view: 'Grid view'}).all().then(records => {
-    console.log(records);
-  }).catch(err => {
-    console.log(err);
-  });
-
-
-  fbClient.list('meetings').then(meetings => {
-    const meeting = meetings[0];
-    const wotd = meeting.word_of_the_day;
-
-    fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/' + wotd, {
+    const meeting = records[0];
+    const wotd = meeting.get('Word of the Day');
+    
+   fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/' + wotd, {
       headers: {
         app_id: process.env.OED_APP_ID,
         app_key: process.env.OED_APP_KEY
@@ -67,8 +60,36 @@ router.get('/', function (req, res, next) {
           'wotd-definition': results,
           'meeting': meeting,
         });
-     });
+
+    // console.log(records);
+  }).catch(err => {
+    console.error(err);
   });
+
+
+  // fbClient.list('meetings').then(meetings => {
+  //   const meeting = meetings[0];
+  //   const wotd = meeting.word_of_the_day;
+
+  //   fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/' + wotd, {
+  //     headers: {
+  //       app_id: process.env.OED_APP_ID,
+  //       app_key: process.env.OED_APP_KEY
+  //       }
+  //     }).then(body => body.json()).then(wotdDefn => {
+  //       const results = wotdDefn.results[0];
+  //       const lexicalEntries = results.lexicalEntries[0];
+  //       const entries = lexicalEntries.entries[0];
+  //       const senses = entries.senses[0];
+  //       const definitions = senses.definitions;
+        
+  //       res.render('agenda', {
+  //         title: 'Dolby Speakers Meeting',
+  //         'wotd-definition': results,
+  //         'meeting': meeting,
+  //       });
+  //    });
+  // });
   
 
   // Promise.all([fbPromise, oedPromise]).then(resultsArray => {
