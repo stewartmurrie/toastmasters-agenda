@@ -37,10 +37,7 @@ router.get('/', function (req, res, next) {
 
     Promise.all([wotd, tm, topicm, ge, timer, ah]).then(results => {
       const defn = results[0].results[0];
-      const lexicalEntries = defn.lexicalEntries[0];
-      const entries = lexicalEntries.entries[0];
-      const senses = entries.senses[0];
-      const definitions = senses.definitions;
+
       res.render('agenda', {
         title: 'Dolby Speakers Meeting',
         'wotd-definition': defn,
@@ -55,7 +52,5 @@ router.get('/', function (req, res, next) {
     }).catch(err => console.log(err));
   });
 });
-
-
 
 module.exports = router;
