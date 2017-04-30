@@ -11,13 +11,6 @@ Airtable.configure({
 });
 const base = Airtable.base(process.env.AIRTABLE_APP_ID);
 
-const Fieldbook = require('fieldbook-client');
-const fbClient = new Fieldbook({
-  key: process.env.FIELDBOOK_API_USERNAME,
-  secret: process.env.FIELDBOOK_API_PASSWORD,
-  bookId: process.env.FIELDBOOK_BOOK_ID
-});
-
 hbs.registerHelper('concat', (...args) => args.slice(0, -1).join(''));
 
 router.get('/', function (req, res, next) {

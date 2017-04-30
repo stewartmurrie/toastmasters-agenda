@@ -14,7 +14,6 @@
     "dotenv": "^4.0.0",
     "es6-promise": "^4.0.5",
     "express": "~4.15.2",
-    "fieldbook-client": "^1.0.7",
     "hbs": "~4.0.1",
     "isomorphic-fetch": "^2.2.1",
     "morgan": "~1.8.1",
