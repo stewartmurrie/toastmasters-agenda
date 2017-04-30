@@ -23,10 +23,15 @@
 
                 <div id="wotd-definition">
                     {{#each wotd-definition.lexicalEntries}}
-                    <p><i>{{lexicalCategory}}</i></p>
-                    {{#each entries}} {{#each senses}} {{#each definitions}}
-                    <p>{{this}}</p>
-                    {{/each}} {{/each}} {{/each}} {{/each}}
+                        <p><i>{{lexicalCategory}}</i></p>
+                        {{#each entries}}
+                            {{#each senses}}
+                                {{#each definitions}}
+                                    <p>{{this}}</p>
+                                {{/each}}
+                            {{/each}}
+                        {{/each}}
+                    {{/each}}
                 </div>
             </section>
             <section id="programme" class="row">
