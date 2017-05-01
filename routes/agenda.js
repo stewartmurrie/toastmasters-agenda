@@ -12,6 +12,7 @@ Airtable.configure({
 const base = Airtable.base(process.env.AIRTABLE_APP_ID);
 
 hbs.registerHelper('concat', (...args) => args.slice(0, -1).join(''));
+hbs.registerHelper("inc", value => parseInt(value) + 1);
 
 router.get('/', function (req, res, next) {
   const meetingDetails = {};
@@ -65,6 +66,7 @@ router.get('/', function (req, res, next) {
 
       promises.push(base('Members').find(speech.get('Speaker')));
       promises.push(base('Members').find(speech.get('Evaluator')));
+      promises.push(base('Projects').find(speech.get('Project')));
 
       meetingDetails.speeches.push(speechDetails);
     });
@@ -77,12 +79,16 @@ router.get('/', function (req, res, next) {
 
     // FIXME speechDeets has an implicit ordering of (speaker, evaluator). There's doubtless a better way.
     // UGH recursion can't be the best way of doing this. This is like C :(
+    const projectPs = [];
+
     const t = function (sePair, i) {
       if (sePair.length == 0) return;
 
-      let [s, e, ...rest] = sePair;
+      let [s, e, p, ...rest] = sePair;
       meetingDetails.speeches[i].speaker = s.get('Name');
       meetingDetails.speeches[i].evaluator = e.get('Name');
+      meetingDetails.speeches[i].project = p.get('Project ID');
+      meetingDetails.speeches[i].time = p.get('Time');
 
       t(rest, i+1);
     }
