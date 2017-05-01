@@ -44,6 +44,7 @@ router.get('/', function (req, res, next) {
     const speechPs = meeting.get('Speeches').map(speechID => base('Speeches').find(speechID));
 
     return Promise.all([wotdP, tmP, topicmP, geP, timerP, ahP, ...speechPs]);
+
   }).then(([wotdBody, toastmaster, topicsmaster, genevalEval, timer, ahCounter, ...speeches]) => {
 
     // These details are available now, so stash them in shared state.
@@ -54,36 +55,43 @@ router.get('/', function (req, res, next) {
     meetingDetails.ahCounter = ahCounter.get('Name');
     meetingDetails.speeches = [];
 
-    // Some more things require more fetching, so Promisify these now.
+    // Some more things require more fetching, so Promisify these now. E.g., the WOTD response which is just a body just now.
+    const promises = [wotdBody.json()];
+
     speeches.forEach(speech => {
       const speechDetails = {};
 
       speechDetails.title = speech.get('Title');
 
+      promises.push(base('Members').find(speech.get('Speaker')));
+      promises.push(base('Members').find(speech.get('Evaluator')));
+
       meetingDetails.speeches.push(speechDetails);
     });
 
-    // The Word of the Day is just a response body; need to extract the JSON from it.
-    return wotdBody.json();
-  }).then(wotdDefn => {
+    return Promise.all(promises);
 
+  }).then(([wotdDefn, ...speechDeets]) => {
     // Now we have everything we need to fill in the meeting details.
     meetingDetails.wotdDefinition = wotdDefn.results[0];
+
+    // FIXME speechDeets has an implicit ordering of (speaker, evaluator). There's doubtless a better way.
+    // UGH recursion can't be the best way of doing this. This is like C :(
+    const t = function (sePair, i) {
+      if (sePair.length == 0) return;
+
+      let [s, e, ...rest] = sePair;
+      meetingDetails.speeches[i].speaker = s.get('Name');
+      meetingDetails.speeches[i].evaluator = e.get('Name');
+
+      t(rest, i+1);
+    }
+
+    t(speechDeets, 0);
 
     res.render('agenda', {
       title: 'Dolby Speakers Meeting',
       meeting: meetingDetails
-
-      //     'speech-title-1': results[6][0],
-      //     'speaker-1': results[6][1].get('Name'),
-      //     'evaluator-1': results[6][2].get('Name'),
-      //     'project-1': results[6][3].get('Project ID'),
-      //     'time-1': results[6][3].get('Time'),
-      //     'speech-title-2': results[6][4],
-      //     'speaker-2': results[6][5].get('Name'),
-      //     'evaluator-2': results[6][6].get('Name'),
-      //     'project-2': results[6][7].get('Project ID'),
-      //     'time-2': results[6][7].get('Time'),
     });
   }).catch(err => {
     console.log(err);
