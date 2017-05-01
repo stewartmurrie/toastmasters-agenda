@@ -55,16 +55,16 @@
                 <div class="col-xs-4 agenda-time">12:11 – 12:30 pm</div>
 
                 {{#each meeting.speeches}}
-                    <div class="col-xs-8 agenda-speech-title">{{title}}</div>
+                    <div class="col-xs-8 agenda-speech-title">&quot;{{title}}&quot;</div>
                     <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{speaker}}</a></div>
                     <div class="col-xs-8 agenda-speech-project">{{project}}, {{time}}</div>
                 {{/each}}
 
                 <div class="col-xs-8 agenda-item">Table Topics</div>
                 <div class="col-xs-4 agenda-time">12:30 – 12:42 pm</div>
-                <div class="col-xs-8 agenda-speech-title">'Days of Future Passed'</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{meeting.topicscmaster}}</a></div>
-                <div class="col-xs-8 agenda-item">Responses, 1 – 2 mins</div>
+                <div class="col-xs-8 agenda-speech-title">&quot;{{meeting.topic}}&quot;</div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{meeting.topicsmaster}}</a></div>
+                <div class="col-xs-8 agenda-role">Responses, 1 – 2 mins</div>
                 <div class="col-xs-4 agenda-name">Members</div>
                 <div class="col-xs-8 agenda-item">Evaluations</div>
                 <div class="col-xs-4 agenda-time">12:42 – 12:55 pm</div>

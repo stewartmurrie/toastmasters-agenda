@@ -22,10 +22,12 @@ router.get('/', function (req, res, next) {
     const word = meeting.get('Word of the Day');
     const location = meeting.get('Location');
     const date = new Date(meeting.get('Date and Time')).toLocaleDateString();
+    const topic = meeting.get('Topic');
 
     meetingDetails.wotd = word;
     meetingDetails.location = location;
     meetingDetails.date = date;
+    meetingDetails.topic = topic;
 
     const wotdP = fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/' + word, {
       headers: {
