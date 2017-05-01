@@ -7,10 +7,10 @@
         <div class="col-sm-3 col-xs-12">
             <div class="row">
                 <div class="col-xs-12">
-                    <h2 id="date">{{date}}</h2>
+                    <h2 id="date">{{meeting.date}}</h2>
                 </div>
                 <div class="col-xs-12">
-                    <h3 id="location">{{location}}</h3>
+                    <h3 id="location">{{meeting.location}}</h3>
                 </div>
             </div>
         </div>
@@ -19,10 +19,10 @@
         <!--   Following the principle of most important content first, the main agenda content is described first, followed by the officers' sidebar. But, in presentation terms, the ordering is reversed using the push/pull construct.  -->
         <article class="col-sm-9 main col-sm-push-3">
             <section id="wotd">
-                <h4>Word of the day: <a href={{concat 'http://www.dictionary.com/browse/' wotd-definition.word}} target='_blank'>{{wotd-definition.word}}</a></h4>
+                <h4>Word of the day: <a href={{concat 'http://www.dictionary.com/browse/' meeting.wotdDefinition.word}} target='_blank'>{{meeting.wotdDefinition.word}}</a></h4>
 
                 <div id="wotd-definition">
-                    {{#each wotd-definition.lexicalEntries}}
+                    {{#each meeting.wotdDefinition.lexicalEntries}}
                         <p><i>{{lexicalCategory}}</i></p>
                         {{#each entries}}
                             {{#each senses}}
@@ -44,25 +44,33 @@
                 <div class="col-xs-8 agenda-item">Role Introductions</div>
                 <div class="col-xs-4 agenda-time">12:06 – 12:10 pm</div>
                 <div class="col-xs-8 agenda-role">Toastmaster</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{toastmaster}}</a></div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{meeting.toastmaster}}</a></div>
                 <div class="col-xs-8 agenda-role">Timer</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{timer}}</a></div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{meeting.timer}}</a></div>
                 <div class="col-xs-8 agenda-role">Ah-counter</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{ah}}</a></div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{meeting.ahCounter}}</a></div>
                 <div class="col-xs-8 agenda-role">General Evaluator</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{ge}}</a></div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{meeting.generalEvaluator}}</a></div>
                 <div class="col-xs-8 agenda-item">Prepared Speeches</div>
                 <div class="col-xs-4 agenda-time">12:11 – 12:30 pm</div>
-                <div class="col-xs-8 agenda-speech-title">{{speech-title-1}}</div>
+
+                {{#each meeting.speeches}}
+                    <div class="col-xs-8 agenda-speech-title">{{title}}</div>
+                    <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{speaker}}</a></div>
+                    <div class="col-xs-8 agenda-speech-project">{{project}}, {{time}}</div>
+                {{/each}}
+
+                {{!--<div class="col-xs-8 agenda-speech-title">{{speech-title-1}}</div>
                 <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{speaker-1}}</a></div>
                 <div class="col-xs-8 agenda-speech-project">{{project-1}}, {{time-1}}</div>
                 <div class="col-xs-8 agenda-speech-title">{{speech-title-2}}</div>
                 <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{speaker-2}}</a></div>
-                <div class="col-xs-8 agenda-speech-project">{{project-2}}, {{time-2}}</div>
+                <div class="col-xs-8 agenda-speech-project">{{project-2}}, {{time-2}}</div>--}}
+
                 <div class="col-xs-8 agenda-item">Table Topics</div>
                 <div class="col-xs-4 agenda-time">12:30 – 12:42 pm</div>
                 <div class="col-xs-8 agenda-speech-title">'Days of Future Passed'</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{topicscmaster}}</a></div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{meeting.topicscmaster}}</a></div>
                 <div class="col-xs-8 agenda-item">Responses, 1 – 2 mins</div>
                 <div class="col-xs-4 agenda-name">Members</div>
                 <div class="col-xs-8 agenda-item">Evaluations</div>
@@ -72,11 +80,11 @@
                 <div class="col-xs-8 agenda-role">Speech 2 Evaluation, 2 – 3 mins</div>
                 <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{evaluator-2}}</a></div>
                 <div class="col-xs-8 agenda-role">Timer's Report, 1 – 2 mins</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{timer}}</a></div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{meeting.timer}}</a></div>
                 <div class="col-xs-8 agenda-role">Ah-counter Report, 1 – 2 mins</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{ah}}</a></div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{meeting.ahCounter}}</a></div>
                 <div class="col-xs-8 agenda-role">General Evaluation, 1 – 2 mins</div>
-                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{ge}}</a></div>
+                <div class="col-xs-4 agenda-name"><a href="mailto:fummy@test.com">{{meeting.generalEvaluator}}</a></div>
                 <div class="col-xs-8 agenda-item">Club Business</div>
                 <div class="col-xs-4 agenda-time">12:55 – 1:00 pm</div>
                 <div class="col-xs-8 agenda-role">President</div>
