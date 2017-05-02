@@ -128,7 +128,7 @@ router.get('/', function (req, res, next) {
       meeting: meetingDetails
     });
   }).catch(err => {
-    // throw new Error(err);
+    throw new Error(err);
   });
 });
 
