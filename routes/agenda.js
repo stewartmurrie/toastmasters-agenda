@@ -3,7 +3,6 @@ const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
 const hbs = require('hbs');
-const co = require('co');
 
 const Airtable = require('airtable');
 Airtable.configure({
