@@ -15,31 +15,7 @@ const base = Airtable.base(process.env.AIRTABLE_APP_ID);
 hbs.registerHelper('concat', (...args) => args.slice(0, -1).join(''));
 hbs.registerHelper("inc", value => parseInt(value) + 1);
 
-function *getWotDDefinition(wotd) {
-  const b = yield fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/' + wotd, {
-      headers: {
-        app_id: process.env.OED_APP_ID,
-        app_key: process.env.OED_APP_KEY
-      }
-    });
-
-  const j = yield b.json();
-
-  return j.results[0];
-}
-
-router.get('/wotd', function (req, res, next) {  
-  co(function*() {
-    try {
-      let defn = yield getWotDDefinition('ace');
-      res.send(defn);
-    } catch (err) {
-      console.error (err);
-    }
-  });
-});
-
-async function getWotDDefinition2(wotd) {
+async function getWotDDefinition(wotd) {
   const b = await fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/' + wotd, {
       headers: {
         app_id: process.env.OED_APP_ID,
@@ -52,12 +28,15 @@ async function getWotDDefinition2(wotd) {
   return j.results[0];
 }
 
-router.get('/wotd2', function (req, res, next) {  
-  (async function() {
-    const r = await getWotDDefinition2('ace')
-    res.send(r);
+router.get('/wotd', function (req, res, next) {  
+  (async () => {
+    try {
+      const r = await getWotDDefinition('ace')
+      res.send(r);
+    } catch (err) {
+      console.log(err);
+    }
   })();
-    
 });
 
 
