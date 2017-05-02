@@ -3,6 +3,7 @@
 /**
  * Module dependencies.
  */
+require('babel-polyfill');
 require('babel-register');
 var app = require('../app');
 var debug = require('debug')('dw-site:server');

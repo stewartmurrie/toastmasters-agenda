@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const fetch = require('node-fetch');
 const hbs = require('hbs');
+const co = require('co');
 
 const Airtable = require('airtable');
 Airtable.configure({
@@ -13,6 +14,33 @@ const base = Airtable.base(process.env.AIRTABLE_APP_ID);
 
 hbs.registerHelper('concat', (...args) => args.slice(0, -1).join(''));
 hbs.registerHelper("inc", value => parseInt(value) + 1);
+
+function *getWotDDefinition(wotd) {
+  const b = yield fetch('https://od-api.oxforddictionaries.com/api/v1/entries/e/' + wotd, {
+      headers: {
+        app_id: process.env.OED_APP_ID,
+        app_key: process.env.OED_APP_KEY
+      }
+    });
+
+  const j = yield b.json();
+
+  return j.results[0];
+}
+
+router.get('/wotd', function (req, res, next) {  
+  co(function*() {
+    try {
+      let defn = yield getWotDDefinition('ace');
+      res.send(defn);
+    } catch (err) {
+      console.error (err);
+    }
+  });
+});
+
+
+
 
 router.get('/', function (req, res, next) {
   const meetingDetails = {};
@@ -102,8 +130,7 @@ router.get('/', function (req, res, next) {
       meeting: meetingDetails
     });
   }).catch(err => {
-    console.log(err);
-    res.send(err);
+    // throw new Error(err);
   });
 });
 
