@@ -16,7 +16,7 @@ hbs.registerHelper('concat', (...args) => args.slice(0, -1).join(''));
 hbs.registerHelper("inc", value => parseInt(value) + 1);
 
 function *getWotDDefinition(wotd) {
-  const b = yield fetch('https://od-api.oxforddictionaries.com/api/v1/entries/e/' + wotd, {
+  const b = yield fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/' + wotd, {
       headers: {
         app_id: process.env.OED_APP_ID,
         app_key: process.env.OED_APP_KEY
@@ -39,7 +39,26 @@ router.get('/wotd', function (req, res, next) {
   });
 });
 
+async function getWotDDefinition2(wotd) {
+  const b = await fetch('https://od-api.oxforddictionaries.com/api/v1/entries/en/' + wotd, {
+      headers: {
+        app_id: process.env.OED_APP_ID,
+        app_key: process.env.OED_APP_KEY
+      }
+    });
 
+  const j = await b.json();
+
+  return j.results[0];
+}
+
+router.get('/wotd2', function (req, res, next) {  
+  (async function() {
+    const r = await getWotDDefinition2('ace')
+    res.send(r);
+  })();
+    
+});
 
 
 router.get('/', function (req, res, next) {
