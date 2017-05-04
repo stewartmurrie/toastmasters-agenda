@@ -9,6 +9,7 @@ Airtable.configure({
   endpointUrl: 'https://api.airtable.com',
   apiKey: process.env.AIRTABLE_API_KEY
 });
+
 const base = Airtable.base(process.env.AIRTABLE_APP_ID);
 
 hbs.registerHelper('concat', (...args) => args.slice(0, -1).join(''));
@@ -25,6 +26,50 @@ const getWotDDefinition = async function (wotd) {
   const j = await b.json();
 
   return j.results[0];
+}
+
+const getRow = async function(table, rowID) {
+  return base(table).find(rowID);
+}
+
+const getMember = async function(id) {
+  const member = await getRow('Members', id);
+  let name = member.get('Name');
+  let titles = member.get('Titles');
+
+  if (titles && titles.length > 0) {
+    while (titles.length > 0) {
+      name += ', ' + titles.shift();
+    }
+  }
+
+  return name;
+}
+
+const getProject = async function(id) {
+  return getRow('Projects', id)
+}
+
+const getSpeech = async function (id) {
+  const details = {};
+
+  const speech = await getRow('Speeches', id);
+
+  details.title = speech.get('Title');
+
+  const [speaker, evaluator, project] = await Promise.all(
+    ['Speaker', 'Evaluator'].map(role => getMember(speech.get(role)))
+      .concat([getProject(speech.get('Project'))])
+  );
+
+  details.speaker = speaker;
+  details.evaluator = evaluator;
+  // details.speaker = speaker.get('Name');
+  // details.evaluator = evaluator.get('Name');
+  details.project = project.get('Project ID');
+  details.time = project.get('Time');
+
+  return details;
 }
 
 router.get('/wotd', function (req, res, next) {
@@ -54,23 +99,29 @@ router.get('/', async function (req, res, next) {
     meetingDetails.wotd = meeting.get('Word of the Day');
 
     // This is as much as we can get directly from the meeting. The rest will need to come from other database calls.
-    // These can be done in parallel, with a Promise.all();
-    // const tmP = base('Members').find(meeting.get('Toastmaster'));
-    // const topicmP = base('Members').find(meeting.get('TopicsMaster'));
-    // const geP = base('Members').find(meeting.get('General Evaluator'));
-    // const timerP = base('Members').find(meeting.get('Timer'));
-    // const ahP = base('Members').find(meeting.get('Ah-counter'));
-          
-    let p = ['Toastmaster', 'TopicsMaster', 'General Evaluator', 'Timer', 'Ah-counter'].map(role => base('Members').find(meeting.get(role)));
-    p.push(getWotDDefinition(meetingDetails.wotd))
+    // Get a definition for the word of the day.
+    let p = [getWotDDefinition(meetingDetails.wotd)];
 
-    const [toastmaster, topicsmaster, generalEvaluator, timer, ahCounter, wotdDefinition] = await Promise.all(p);
+    // Get details of the meeting roles.
+    p = p.concat(['Toastmaster', 'TopicsMaster', 'General Evaluator', 'Timer', 'Ah-counter'].map(role => getMember(meeting.get(role))));
+
+    // Get details of the speeches.
+    p = p.concat(meeting.get('Speeches').map(speechID => getSpeech(speechID)));
+
+    const [wotdDefinition, toastmaster, topicsmaster, generalEvaluator, timer, ahCounter, ...speeches] = await Promise.all(p);
+
     meetingDetails.wotdDefinition = wotdDefinition;
-    meetingDetails.toastmaster = toastmaster.get('Name');
-    meetingDetails.topicsmaster = topicsmaster.get('Name');
-    meetingDetails.generalEvaluator = generalEvaluator.get('Name');
-    meetingDetails.timer = timer.get('Name');
-    meetingDetails.ahCounter = ahCounter.get('Name');
+    meetingDetails.toastmaster = toastmaster;
+    meetingDetails.topicsmaster = topicsmaster;
+    meetingDetails.generalEvaluator = generalEvaluator;
+    meetingDetails.timer = timer;
+    meetingDetails.ahCounter = ahCounter;
+    // meetingDetails.toastmaster = toastmaster.get('Name');
+    // meetingDetails.topicsmaster = topicsmaster.get('Name');
+    // meetingDetails.generalEvaluator = generalEvaluator.get('Name');
+    // meetingDetails.timer = timer.get('Name');
+    // meetingDetails.ahCounter = ahCounter.get('Name');
+    meetingDetails.speeches = speeches;
 
     res.render('agenda', {
       title: 'Dolby Speakers Meeting',
