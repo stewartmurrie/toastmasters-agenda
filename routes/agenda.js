@@ -64,8 +64,6 @@ const getSpeech = async function (id) {
 
   details.speaker = speaker;
   details.evaluator = evaluator;
-  // details.speaker = speaker.get('Name');
-  // details.evaluator = evaluator.get('Name');
   details.project = project.get('Project ID');
   details.time = project.get('Time');
 
@@ -116,11 +114,7 @@ router.get('/', async function (req, res, next) {
     meetingDetails.generalEvaluator = generalEvaluator;
     meetingDetails.timer = timer;
     meetingDetails.ahCounter = ahCounter;
-    // meetingDetails.toastmaster = toastmaster.get('Name');
-    // meetingDetails.topicsmaster = topicsmaster.get('Name');
-    // meetingDetails.generalEvaluator = generalEvaluator.get('Name');
-    // meetingDetails.timer = timer.get('Name');
-    // meetingDetails.ahCounter = ahCounter.get('Name');
+
     meetingDetails.speeches = speeches;
 
     res.render('agenda', {
@@ -130,63 +124,6 @@ router.get('/', async function (req, res, next) {
   } catch (err) {
     console.error(err);
   }
-
-
-  // // Now to get the speeches. These are a little tricker because (a) it's an array, and (b) there's more nested data to be fetched within these.
-  // const speechPs = meeting.get('Speeches').map(speechID => base('Speeches').find(speechID));
-
-  //   return Promise.all([wotdP, tmP, topicmP, geP, timerP, ahP, ...speechPs]);
-
-  // }).then(([wotdBody, toastmaster, topicsmaster, genevalEval, timer, ahCounter, ...speeches]) => {
-
-  //   meetingDetails.speeches = [];
-
-  //   // Some more things require more fetching, so Promisify these now. E.g., the WOTD response which is just a body just now.
-  //   // const promises = [wotdBody.json()];
-
-  //   speeches.forEach(speech => {
-  //     const speechDetails = {};
-
-  //     speechDetails.title = speech.get('Title');
-
-  //     promises.push(base('Members').find(speech.get('Speaker')));
-  //     promises.push(base('Members').find(speech.get('Evaluator')));
-  //     promises.push(base('Projects').find(speech.get('Project')));
-
-  //     meetingDetails.speeches.push(speechDetails);
-  //   });
-
-  //   return Promise.all(promises);
-
-  // }).then(([wotdDefn, ...speechDeets]) => {
-  //   // Now we have everything we need to fill in the meeting details.
-  //   // meetingDetails.wotdDefinition = wotdDefn.results[0];
-
-  //   // FIXME speechDeets has an implicit ordering of (speaker, evaluator). There's doubtless a better way.
-  //   // UGH recursion can't be the best way of doing this. This is like C :(
-  //   const projectPs = [];
-
-  //   const t = function (sePair, i) {
-  //     if (sePair.length == 0) return;
-
-  //     let [s, e, p, ...rest] = sePair;
-  //     meetingDetails.speeches[i].speaker = s.get('Name');
-  //     meetingDetails.speeches[i].evaluator = e.get('Name');
-  //     meetingDetails.speeches[i].project = p.get('Project ID');
-  //     meetingDetails.speeches[i].time = p.get('Time');
-
-  //     t(rest, i+1);
-  //   }
-
-  //   t(speechDeets, 0);
-
-  //   res.render('agenda', {
-  //     title: 'Dolby Speakers Meeting',
-  //     meeting: meetingDetails
-  //   });
-  // }).catch(err => {
-  //   throw new Error(err);
-  // });
 });
 
 module.exports = router;
