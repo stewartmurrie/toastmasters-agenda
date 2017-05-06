@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "start-wp": "webpack --config mywebpack.config.js"
   },
   "dependencies": {
     "airtable": "^0.5.0",
@@ -15,9 +16,12 @@
     "hbs": "~4.0.1",
     "morgan": "~1.8.1",
     "node-fetch": "^1.6.3",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
     "serve-favicon": "~2.4.2"
   },
   "devDependencies": {
-    "nodemon": "^1.11.0"
+    "nodemon": "^1.11.0",
+    "webpack": "^2.5.0"
   }
 }
